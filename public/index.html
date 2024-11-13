@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Aggregator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #posts {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .post {
+            background: #f4f4f4;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .post a {
+            color: #333;
+            text-decoration: none;
+        }
+        .post a:hover {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>News Aggregator</h1>
+    <div id="posts"></div>
+
+    <script>
+      fetch('/api/posts')
+          .then(response => response.json())
+          .then(posts => {
+              const postsDiv = document.getElementById('posts');
+              posts.forEach(post => {
+                  const postDiv = document.createElement('div');
+                  postDiv.className = 'post';
+                  postDiv.innerHTML = `<a href="${post.link}" target="_blank">${post.title}</a>`;
+                  postsDiv.appendChild(postDiv);
+              });
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              document.getElementById('posts').innerHTML = 'Error loading posts. Please try again later.';
+          });
+  </script>
+</body>
+</html>
